@@ -1,0 +1,339 @@
+{
+  "id": "lxtijjzzpyftcnkr3p",
+  "name": "Swatch Creator",
+  "description": "Takes a token set and creates colour swatches",
+  "color": "green",
+  "actions": [
+    {
+      "id": "l0dq25uezrpvfe3kwuh",
+      "command": {
+        "name": "askForInput",
+        "metadata": {
+          "inputVariable": "set",
+          "inputPrompt": "Which set?"
+        },
+        "title": "",
+        "description": ""
+      },
+      "actions": []
+    },
+    {
+      "id": "l0doweczslxczzg0tdr",
+      "command": {
+        "name": "setVariable",
+        "metadata": {
+          "key": "tokenValues",
+          "value": "eval(function main() { const pluginData = figma.root.getSharedPluginData(\"tokens\", \"values\")\nconst tokens= JSON.parse(pluginData);\nconst parsed = tokens[\"{{set}}\"];\nreturn JSON.stringify(parsed) }; main())"
+        },
+        "title": "",
+        "description": ""
+      },
+      "actions": []
+    },
+    {
+      "id": "l0ehyhw0q86eeaj7jb",
+      "command": {
+        "name": "createFrame",
+        "metadata": {},
+        "title": "",
+        "description": ""
+      },
+      "actions": [
+        {
+          "id": "l0ehzbv7q2ca5u9yyce",
+          "command": {
+            "name": "setVariable",
+            "metadata": {
+              "key": "parentFrameId",
+              "value": "{{this.id}}"
+            },
+            "title": "",
+            "description": ""
+          },
+          "actions": []
+        },
+        {
+          "id": "l0ehymbrsj59nwetuzh",
+          "command": {
+            "name": "setAutoLayout",
+            "metadata": {
+              "layoutMode": "VERTICAL",
+              "itemSpacing": "16",
+              "horizontalSizingMode": "AUTO",
+              "verticalSizingMode": "AUTO",
+              "horizontalAlignItems": "MIN",
+              "verticalAlignItems": "MIN",
+              "alignment": "PACKED",
+              "paddingLeft": "32",
+              "paddingRight": "32",
+              "paddingTop": "32",
+              "paddingBottom": "32"
+            },
+            "title": "",
+            "description": ""
+          },
+          "actions": []
+        }
+      ]
+    },
+    {
+      "id": "l0dqg1jsnp9cxh9e94a",
+      "command": {
+        "name": "getCurrentSelection",
+        "metadata": {},
+        "title": "",
+        "description": ""
+      },
+      "actions": [
+        {
+          "id": "l0dqgpmtlbuc7hl271s",
+          "command": {
+            "name": "setVariable",
+            "metadata": {
+              "key": "templateLayer",
+              "value": "{{this.id}}"
+            },
+            "title": "",
+            "description": ""
+          },
+          "actions": []
+        },
+        {
+          "id": "l0dq1h0fvi96c6pthu7",
+          "command": {
+            "name": "forEach",
+            "metadata": {
+              "array": "{{tokenValues}}"
+            },
+            "title": "",
+            "description": ""
+          },
+          "actions": [
+            {
+              "id": "l0e5nw0u7n3979916nj",
+              "command": {
+                "name": "setVariable",
+                "metadata": {
+                  "key": "token",
+                  "value": "{{item}}"
+                },
+                "title": "",
+                "description": ""
+              },
+              "actions": []
+            },
+            {
+              "id": "l0e4pl732rf28li1plf",
+              "command": {
+                "name": "getNodeById",
+                "metadata": {
+                  "id": "{{templateLayer}}"
+                },
+                "title": "",
+                "description": ""
+              },
+              "actions": [
+                {
+                  "id": "l0e4qbq5xz0n47cl0ci",
+                  "command": {
+                    "name": "duplicate",
+                    "metadata": {},
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": [
+                    {
+                      "id": "l0e4rsfl4c3ap5bcwvi",
+                      "command": {
+                        "name": "setName",
+                        "metadata": {
+                          "layerName": "{{item.name}}"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    },
+                    {
+                      "id": "lxtkib94bp90057g10q",
+                      "command": {
+                        "name": "find",
+                        "metadata": {
+                          "findType": "findOne",
+                          "location": "parentAction",
+                          "key": "name",
+                          "condition": "beginsWith",
+                          "value": "__fill"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": [
+                        {
+                          "id": "lxu59xxm0nc4uwqajtnc",
+                          "command": {
+                            "name": "setSelection",
+                            "metadata": {},
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        },
+                        {
+                          "id": "lxtkivk6xkco40khcxs",
+                          "command": {
+                            "name": "addFill",
+                            "metadata": {
+                              "fillColor": [
+                                {
+                                  "type": "VARIABLE",
+                                  "value": "{{token.value}}",
+                                  "alpha": 1
+                                }
+                              ]
+                            },
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        },
+                        {
+                          "id": "lxu57olkkpcc3lnsu1j",
+                          "command": {
+                            "name": "runScript",
+                            "metadata": {
+                              "script": "const property = \"fill\";\nconst value = \"{{token.name}}\";\nconst layer = figma.currentPage.selection[0];\nlayer.setSharedPluginData(\"tokens\", property, `\"${value}\"`);"
+                            },
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "l0e4tjwdtsdmrq27udq",
+                      "command": {
+                        "name": "find",
+                        "metadata": {
+                          "findType": "findOne",
+                          "location": "parentAction",
+                          "key": "name",
+                          "condition": "beginsWith",
+                          "value": "__tokenName"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": [
+                        {
+                          "id": "lxu5a9iujdlavpbgexn",
+                          "command": {
+                            "name": "setSelection",
+                            "metadata": {},
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        },
+                        {
+                          "id": "l0eizrwycxmfz67vxzf",
+                          "command": {
+                            "name": "setTextCharacters",
+                            "metadata": {
+                              "characters": "eval(function main() { const name = \"{{token.name}}\"; const splitName = name.split(\".\"); return splitName[splitName.length - 1]; }; main())"
+                            },
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        },
+                        {
+                          "id": "lxu592z6r48x0sgzw9n",
+                          "command": {
+                            "name": "runScript",
+                            "metadata": {
+                              "script": "const property = \"tokenName\";\nconst value = \"{{token.name}}\";\nconst layer = figma.currentPage.selection[0];\nlayer.setSharedPluginData(\"tokens\", property, `\"${value}\"`);"
+                            },
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "lxtkgrfrdjd56mgx6hc",
+                      "command": {
+                        "name": "find",
+                        "metadata": {
+                          "findType": "findOne",
+                          "location": "parentAction",
+                          "key": "name",
+                          "condition": "beginsWith",
+                          "value": "__value"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": [
+                        {
+                          "id": "lxu5ad9q91gca4mo75e",
+                          "command": {
+                            "name": "setSelection",
+                            "metadata": {},
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        },
+                        {
+                          "id": "lxtkgrfr699tbx4gf16",
+                          "command": {
+                            "name": "setTextCharacters",
+                            "metadata": {
+                              "characters": "{{token.value}}"
+                            },
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        },
+                        {
+                          "id": "lxu59b7kl0gxyiot53o",
+                          "command": {
+                            "name": "runScript",
+                            "metadata": {
+                              "script": "const property = \"value\";\nconst value = \"{{token.name}}\";\nconst layer = figma.currentPage.selection[0];\nlayer.setSharedPluginData(\"tokens\", property, `\"${value}\"`);"
+                            },
+                            "title": "",
+                            "description": ""
+                          },
+                          "actions": []
+                        }
+                      ]
+                    },
+                    {
+                      "id": "l0ei07nbx9q7nvudfq9",
+                      "command": {
+                        "name": "reparent",
+                        "metadata": {
+                          "parentID": "{{parentFrameId}}"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": 1719265927679,
+  "automationWasChanged": true
+}

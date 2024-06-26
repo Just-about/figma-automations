@@ -1,0 +1,224 @@
+{
+  "id": "lxu5d6jorwtai9e3e5k",
+  "name": "Swatch Updater",
+  "description": "Updates a colour swatches created by \"Swatch Creator\"",
+  "color": "blue",
+  "actions": [
+    {
+      "id": "lxw14zowf8duwc0vljh",
+      "command": {
+        "name": "askForInput",
+        "metadata": {
+          "inputVariable": "set",
+          "inputPrompt": "Which set? (This should match what you used in the creation phase)"
+        },
+        "title": "",
+        "description": ""
+      },
+      "actions": []
+    },
+    {
+      "id": "l0doweczslxczzg0tdr",
+      "command": {
+        "name": "setVariable",
+        "metadata": {
+          "key": "tokenValues",
+          "value": "eval(function main() { const pluginData = figma.root.getSharedPluginData(\"tokens\", \"values\")\nconst tokens= JSON.parse(pluginData);\nconst parsed = tokens[\"{{set}}\"];\nreturn JSON.stringify(parsed) }; main())"
+        },
+        "title": "",
+        "description": ""
+      },
+      "actions": []
+    },
+    {
+      "id": "l0dqg1jsnp9cxh9e94a",
+      "command": {
+        "name": "getCurrentSelection",
+        "metadata": {},
+        "title": "",
+        "description": ""
+      },
+      "actions": [
+        {
+          "id": "l0e4tjwdtsdmrq27udq",
+          "command": {
+            "name": "find",
+            "metadata": {
+              "findType": "findChildren",
+              "location": "parentAction",
+              "key": "",
+              "condition": "beginsWith",
+              "value": ""
+            },
+            "title": "",
+            "description": ""
+          },
+          "actions": [
+            {
+              "id": "lxw0l1v6dbsz6jkmsu5",
+              "command": {
+                "name": "forEach",
+                "metadata": {},
+                "title": "",
+                "description": ""
+              },
+              "actions": [
+                {
+                  "id": "lxw1bd2uskv5nproo",
+                  "command": {
+                    "name": "setVariable",
+                    "metadata": {
+                      "key": "layerName",
+                      "value": "{{item.name}}"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": []
+                },
+                {
+                  "id": "lxw0qobsdydjesemq7j",
+                  "command": {
+                    "name": "setVariable",
+                    "metadata": {
+                      "key": "token",
+                      "value": "eval(function main() {const tokens = {{tokenValues}}; const token = tokens.find(t => t.name === \"{{layerName}}\" ); return JSON.stringify(token); }; main())"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": []
+                },
+                {
+                  "id": "lxw0q1slqfni95qszk",
+                  "command": {
+                    "name": "find",
+                    "metadata": {
+                      "findType": "findOne",
+                      "location": "parentAction",
+                      "key": "name",
+                      "condition": "beginsWith",
+                      "value": "__tokenName"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": [
+                    {
+                      "id": "lxu5a9iujdlavpbgexn",
+                      "command": {
+                        "name": "setSelection",
+                        "metadata": {},
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    },
+                    {
+                      "id": "l0eizrwycxmfz67vxzf",
+                      "command": {
+                        "name": "setTextCharacters",
+                        "metadata": {
+                          "characters": "eval(function main() { const tokenName = \"{{token.name}}\"; const splitTokenName = tokenName.split(\".\"); return splitTokenName[splitTokenName.length - 1]; }; main())"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    }
+                  ]
+                },
+                {
+                  "id": "lxvz57aw3wimtk1gka",
+                  "command": {
+                    "name": "find",
+                    "metadata": {
+                      "findType": "findOne",
+                      "location": "parentAction",
+                      "key": "name",
+                      "condition": "beginsWith",
+                      "value": "__fill"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": [
+                    {
+                      "id": "lxvz57awa549p7q5keh",
+                      "command": {
+                        "name": "setSelection",
+                        "metadata": {},
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    },
+                    {
+                      "id": "lxvz57aw5npyvr6g0w",
+                      "command": {
+                        "name": "addFill",
+                        "metadata": {
+                          "fillColor": [
+                            {
+                              "type": "VARIABLE",
+                              "value": "{{token.value}}",
+                              "alpha": 1
+                            }
+                          ]
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    }
+                  ]
+                },
+                {
+                  "id": "lxtkgrfrdjd56mgx6hc",
+                  "command": {
+                    "name": "find",
+                    "metadata": {
+                      "findType": "findOne",
+                      "location": "parentAction",
+                      "key": "name",
+                      "condition": "beginsWith",
+                      "value": "__value"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": [
+                    {
+                      "id": "lxu5ad9q91gca4mo75e",
+                      "command": {
+                        "name": "setSelection",
+                        "metadata": {},
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    },
+                    {
+                      "id": "lxtkgrfr699tbx4gf16",
+                      "command": {
+                        "name": "setTextCharacters",
+                        "metadata": {
+                          "characters": "{{token.value}}"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": 1719304261476,
+  "automationWasChanged": true
+}
