@@ -1,0 +1,101 @@
+{
+  "id": "lxxczdib8xmxk4ewwbb",
+  "name": "Last Three Characters",
+  "description": "Sets a field to the last three characters of __tokenName value",
+  "color": "pink",
+  "actions": [
+    {
+      "id": "l0dqg1jsnp9cxh9e94a",
+      "command": {
+        "name": "getCurrentSelection",
+        "metadata": {},
+        "title": "",
+        "description": ""
+      },
+      "actions": [
+        {
+          "id": "lxxd4j8f02wqskow6ndb",
+          "command": {
+            "name": "find",
+            "metadata": {
+              "findType": "findChildren",
+              "location": "parentAction",
+              "key": "",
+              "condition": "beginsWith",
+              "value": ""
+            },
+            "title": "",
+            "description": ""
+          },
+          "actions": [
+            {
+              "id": "lxxd4j8fxet5x6i57i",
+              "command": {
+                "name": "forEach",
+                "metadata": {},
+                "title": "",
+                "description": ""
+              },
+              "actions": [
+                {
+                  "id": "lxxd4j8frripghc4ut9",
+                  "command": {
+                    "name": "setVariable",
+                    "metadata": {
+                      "value": "{{item.name}}",
+                      "key": "tokenName"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": []
+                },
+                {
+                  "id": "lxw0q1slqfni95qszk",
+                  "command": {
+                    "name": "find",
+                    "metadata": {
+                      "findType": "findOne",
+                      "location": "parentAction",
+                      "key": "name",
+                      "condition": "beginsWith",
+                      "value": "__tokenName"
+                    },
+                    "title": "",
+                    "description": ""
+                  },
+                  "actions": [
+                    {
+                      "id": "lxu5a9iujdlavpbgexn",
+                      "command": {
+                        "name": "setSelection",
+                        "metadata": {},
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    },
+                    {
+                      "id": "l0eizrwycxmfz67vxzf",
+                      "command": {
+                        "name": "setTextCharacters",
+                        "metadata": {
+                          "characters": "eval(function main() { const tokenName = \"{{tokenName}}\"; return tokenName.slice(-3); }; main())"
+                        },
+                        "title": "",
+                        "description": ""
+                      },
+                      "actions": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "createdAt": 1719498452771,
+  "automationWasChanged": true
+}
